@@ -1,5 +1,11 @@
 # Basic Experiment with ASP.NET Core, Prometheus and Graphana
 
+## Purpose
+
+Nothing really fancy here, it's a playground allowing me to play easily with Prometheus and Graphana (using ASP.NET Core).
+
+Nothing here is production ready.
+
 ## Build & Run
 
 ```
@@ -30,13 +36,14 @@ Exemple :
 ab -n 10000 -c10 "http://localhost:8080/?pause=10&listSize=1000"
 ```
 
-## Cleanup
+## Shutdown & cleanup
 
 ```
 docker-compose down
 
+docker rmi promtrial_app
+docker image prune --filter label=stage=builder
+
 docker volume rm promtrial_data-graphana
 docker volume rm promtrial_data-prometheus
-
-docker images prune
 ```
