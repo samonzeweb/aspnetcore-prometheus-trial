@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using PromTrial.Infrastructure;
 using PromTrial.Models;
 
 namespace PromTrial.Controllers
@@ -12,10 +13,13 @@ namespace PromTrial.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly AppMetrics _appMetrics;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger,
+                              AppMetrics appMetrics)
         {
             _logger = logger;
+            _appMetrics = appMetrics;
         }
 
         public async Task<IActionResult> Index([FromQuery] int pause = 0,
@@ -28,6 +32,9 @@ namespace PromTrial.Controllers
                 var dummyString = new string("foo, bar, baz");
                 dummyDatas.Add(dummyString);
             }
+
+            // Increment the custom counter
+            _appMetrics.AllocatedStringsCounter.Inc(listSize);
 
             // Force request to take some time
             if (pause > 0)

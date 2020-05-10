@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Prometheus;
+using PromTrial.Infrastructure;
 
 namespace PromTrial
 {
@@ -20,6 +21,8 @@ namespace PromTrial
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            services.AddSingleton<AppMetrics>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
